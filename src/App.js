@@ -6,6 +6,12 @@ import Todolist from './Todolist.js';
 function App() {
   var [value,setvalue] = useState("");
   var [items,setitems] = useState([]);
+  if(localStorage.items !== undefined)
+  {
+
+    let itemsList=localStorage.getItem("items");
+    items=itemsList.split(",");
+  }
   function store(event)
   {
     const inputValue = event.target.value;
@@ -17,11 +23,19 @@ function App() {
             return index !== id;
           })
         })
+        localStorage.setItem("items",items.filter((value,index)=>{
+          return index !== id;
+        }))
+        if(localStorage.items === '')
+        {
+          localStorage.removeItem("items");
+        }
   }
   function addList(){
    setitems((prevValue)=>{
      return [...prevValue,value];
    });
+   localStorage.setItem("items",[...items,value]);
    setvalue("");
   }
   return (
@@ -45,5 +59,5 @@ function App() {
   </>
   );
 }
-
+//rahul yadav
 export default App;
